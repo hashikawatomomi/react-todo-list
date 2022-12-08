@@ -4,70 +4,48 @@ import './App.css';
 
 function App() {
 
+const [todos, setTodos] = useState([]);
+
 const [todoText, setTodoText] = useState(['']);
 
-const [todos, setTodos] = useState(['']);
-
-const [editTodos, setEditTodos] = useState([''])
-
-const onChangeTodos = (event) => {
-  setTodos(event.target.value);
+const onChangeTodoText = (event) => {
+  setTodoText(event.target.value);
 };
 
 const onClickAdd = () => {
-  if (todos === '') return;
-  const newTodos = [...todoText, todos];
-  setTodoText(newTodos);
-  setTodos('');
+  if (todoText === '') return;
+  const newTodoText = [...todos, todoText];
+  setTodos(newTodoText);
+  setTodoText('');
 };
 
 const onClickDelete = (index) => {
-  const newTodos = [...todoText];
-  newTodos.splice(index, 1);
-  setTodoText(newTodos);
-};
-
-const onClickEdit = (index) => {
-  const newTodoText = [...todoText];
+  const newTodoText = [...todos];
   newTodoText.splice(index, 1);
-
+  setTodos(newTodoText);
 };
-
 
   return (
     <>
     <div>
       <div>
         <h1>TODOリスト</h1>
-        <select>
-          <option>全て表示</option>
-          <option>未着手</option>
-          <option>進行中</option>
-          <option>完了</option>
-        </select>
       </div>
       <ul>
-        {todoText.map((todo ,index) => {
+        {todos.map((todo ,index) => {
           return  (
           <li key={todo}>
-          <p>{todo}</p>
-          <button onClick={() => onClickEdit(index)}>編集</button>
-          <button onClick={() => onClickDelete(index)}>削除</button>
-        </li>
+            <p>{todo}</p>
+            <button onClick={() => onClickDelete(index)}>削除</button>
+          </li>
           );
         })}
       </ul>
     </div>
     <div>
       <p>追加フォーム</p>
-      <input type='text' label='タイトル' value={todos} onChange={onChangeTodos} />
+      <input type='text' label='タイトル' value={todoText} onChange={onChangeTodoText} />
       <button onClick={onClickAdd}>作成</button>
-    </div>
-    <div>
-      <p>編集フォーム</p>
-            <input type='text' label='新しいタイトル' value={todoText}/>
-      <button>編集を保存</button>
-      <button>キャンセル</button>
     </div>
     </>
   );
